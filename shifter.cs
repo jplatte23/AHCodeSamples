@@ -7,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 public class Shifter : MonoBehaviour
 {
     // Public fields
-    public GameObject linkedRipPrefab; // Prefab for the Random Rip
+    public GameObject linkedRipPrefab; 
     public GameObject deathParticles;
     [Tooltip("True if you want the shifter to instantiate portal first")]
     public bool waitsForAnimations = false;
@@ -21,7 +21,6 @@ public class Shifter : MonoBehaviour
     public bool canTeleport = true;
 
     private bool hasGoneThroughOwnPortal = false;
-    //public bool canTeleport = true;
 
     // Private fields
     private bool isActive = false;
@@ -29,7 +28,7 @@ public class Shifter : MonoBehaviour
     private GameObject player;
     private Camera mainCamera;
     private Renderer shifterRenderer;
-    private Rigidbody2D rb; // Rigidbody for movement
+    private Rigidbody2D rb; 
 
     const float MOVE_FORCE = 50.0f;
     [SerializeField] private float maxSpeed = 2.5f;
@@ -103,7 +102,6 @@ public class Shifter : MonoBehaviour
         // If chasing, move toward the player
         if (isChasing && _isAngry)
         {
-            Debug.Log($"[Shifter: {name}] is chasing. isTrackingPortals: {isTrackingPortals}, isFollowingPath: {isFollowingPath}");
             // Check portal path if not already following one
             if (!isFollowingPath)
             {
@@ -145,7 +143,7 @@ public class Shifter : MonoBehaviour
         }
         else
         {
-            _spriteRenderer.sortingOrder = 5; //default 5..
+            _spriteRenderer.sortingOrder = 5;
             if (shifterLight != null)
                 shifterLight.enabled = true;
         }
@@ -160,7 +158,6 @@ public class Shifter : MonoBehaviour
         }
         float xDistance = Mathf.Abs(targetPortal.transform.position.x - transform.position.x);
         float yDistance = Mathf.Abs(targetPortal.transform.position.y - transform.position.y);
-        //This check was bad, we also need to check that it's the same layer, same 
         if (Vector2.Distance(player.transform.position, transform.position) <
             Vector2.Distance(targetPortal.transform.position, transform.position))
         {
@@ -182,12 +179,7 @@ public class Shifter : MonoBehaviour
                     }
                 }
             }
-            //Checking we're on the same layer
-
         }
-        //Need to check if it cannot get to that portal for whatever reason, for now, we'll check if it's been on the correct x level but wrong y level for a couple seconds. 
-        //Kinda a bandaid but there's really no more efficient way I can think of to figure out if he's stuck
-
         if (xDistance <= xPositionThreshold)
         {
             // Enter checks here
@@ -503,7 +495,6 @@ public class Shifter : MonoBehaviour
             Vector2 moveDirection = new Vector2((transform.position - player.transform.position).x, 0);
             // Normalize the move direction to ensure consistent distance calculations
             moveDirection.Normalize();
-            //Debug.Log($"[Shifter: {name}] Move direction: {moveDirection}");
             Collider2D paintableCollider = collider;
             Collider2D shifterCollider = GetComponent<Collider2D>();
 
@@ -512,11 +503,8 @@ public class Shifter : MonoBehaviour
             float projectedPaintableSize = paintableCollider.bounds.extents.x;
 
             // Calculate the distance needed to clear the paintable object
-            //Debug.Log($"Original Shifter position: {transform.position}");
-            //Debug.Log($"Original box position: {collider.transform.position}");
             float moveDistance = projectedShifterSize + projectedPaintableSize + 0.1f; // Add small buffer
             Vector2 newPosition = new Vector2(collider.transform.position.x, transform.position.y) + moveDirection * moveDistance;
-            //Debug.Log($"new position: {newPosition}");
             // Move the shifter to the new position
             transform.position = newPosition;
         }

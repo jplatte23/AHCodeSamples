@@ -6,7 +6,6 @@ using UnityEngine;
 public class LinkedRip : MonoBehaviour
 {
     public GameObject EndRip;
-    //public PlayerMove playermove;
     const float TELEPORT_COOLDOWN = 0.5f;
 
     private bool canTeleport = true;
@@ -37,20 +36,6 @@ public class LinkedRip : MonoBehaviour
         {
             TeleportTime -= Time.deltaTime;
         }
-        /*
-        if (playerInTrigger)
-        {
-            
-            Debug.Log("1. counter is " + player.GetComponent<PlayerMove>().counter);
-           
-        }
-        else
-        {
-            player.GetComponent<PlayerMove>().counter = false;
-
-            Debug.Log("2. counter is " + player.GetComponent<PlayerMove>().counter);
-        }
-        */
     }
 
 
@@ -92,7 +77,6 @@ public class LinkedRip : MonoBehaviour
             {
                 // Non-shifter enemy, just teleport
                 enemyInTrigger = true;
-                //Debug.Log("teleporting enemySSSSSS");
                 TeleportEnemy(col.gameObject);
             }
         }
@@ -103,8 +87,6 @@ public class LinkedRip : MonoBehaviour
             GameObject player = GameObject.FindWithTag("Player");
             player.GetComponent<PlayerMove>().counter = true;
             player.GetComponent<PlayerMove>().OnCounterTriggered();
-            Debug.Log("1. counter is " + player.GetComponent<PlayerMove>().counter);
-            // Only record portal use for player teleports
         }
     }
     private void OnTriggerExit2D(Collider2D col)
@@ -141,7 +123,6 @@ public class LinkedRip : MonoBehaviour
                 if (shifter.isTrackingPortals && shifter._isAngry)
                 {
                     portalPath.RecordPortalUse(gameObject, EndRip);
-                    Debug.Log($"[LinkedRip] Recorded portal use for tracking shifter {shifter.name}");
                     break; // Only need to record once
                 }
             }
@@ -158,7 +139,6 @@ public class LinkedRip : MonoBehaviour
                 }
 
                 StartCoroutine(layerSwitching.Switch(layerDifference, targetPosition));
-                //StartCoroutine(layerSwitching.Switch(layerDifference, EndRip.transform.position));
                 TeleportTime += 2.0f;
             }
 
@@ -177,7 +157,6 @@ public class LinkedRip : MonoBehaviour
     //FOR ENEMY
     private void TeleportEnemy(GameObject obj)
     {
-        //Debug.Log("SSSSSSSSSSSSSSSSSSSSSSteleporting " + obj);
         if (EndRip != null && canTeleport && enemyInTrigger)
         {
             Shifter shifter = obj.GetComponent<Shifter>();
@@ -193,7 +172,7 @@ public class LinkedRip : MonoBehaviour
             // If it's a shifter, handle portal path updates
             if (shifter != null)
             {
-                shifter.OnPortalUsed(); // New method to handle post-teleport logic
+                shifter.OnPortalUsed(); 
             }
 
             StartCoroutine(layerSwitching.SwitchEnemy(obj, EndRip.transform.position, currentLayer, layerDifference));

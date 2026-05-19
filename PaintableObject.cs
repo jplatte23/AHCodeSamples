@@ -16,7 +16,6 @@ public class PaintableObject : MonoBehaviour
     [SerializeField] public float respawnPointZ;
 
     [SerializeField] public string respawnLayer;
-    // [SerializeField] private ParticleSystem drippingEffect; // shows up / disappears when the player paints / unpaints the object
     private ParticleSystem[] paintEffects;
     private Color originalColor;
     private SpriteRenderer[] spriteRenderers;
@@ -55,7 +54,7 @@ public class PaintableObject : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.simulated = false; // Disables physics 
+            rb.simulated = false; 
         }
 
         player = GameObject.Find("Player");
@@ -220,12 +219,7 @@ public class PaintableObject : MonoBehaviour
         {
             //call placedownobject from inventory
             respawnPaintableObject();
-            //inventory.PickupObject(gameObject);
             inventory.PlaceDownObject(true, this);
-
-            /*manager.RemovePaintedObject(this.name);
-            manager.RemovePaintableObject(this.name);
-            Destroy(gameObject);*/
         }
     }
 
